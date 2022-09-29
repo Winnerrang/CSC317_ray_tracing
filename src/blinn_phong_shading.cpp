@@ -1,7 +1,6 @@
 #include "blinn_phong_shading.h"
 // Hint:
 #include "first_hit.h"
-#include <iostream>
 #include <limits>
 
 #define AMBIENT_INTENSITY 0.1
@@ -47,14 +46,15 @@ Eigen::Vector3d blinn_phong_shading(
 
 		//diffuse shading = ks * I * max(n dot l, 0)
 		Eigen::Vector3d Ld = (kd.array() * light->I.array()).matrix() * std::fmax(n.dot(shadow_ray.direction), 0);
-		if (max_t != std::numeric_limits<double>::infinity()) Ld /= max_t * max_t;
+		//if (max_t != std::numeric_limits<double>::infinity()) Ld /= max_t * max_t;
 
 		//specular shadding = ka * I * max(0, n dot h)^p
 		
 		Eigen::Vector3d h = (v + shadow_ray.direction).normalized();
 
 		Eigen::Vector3d Ls = (ks.array() * light->I.array()).matrix() * std::pow(std::fmax(n.dot(h), 0), p);
-		if (max_t != std::numeric_limits<double>::infinity()) Ls /= max_t * max_t;
+		//if (max_t != std::numeric_limits<double>::infinity()) Ls /= max_t * max_t;
+
 
 		result += Ld + Ls;
 

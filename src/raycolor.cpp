@@ -2,10 +2,8 @@
 #include "first_hit.h"
 #include "blinn_phong_shading.h"
 #include "reflect.h"
-#include <assert.h>
-
 #define FUDGE_FACTOR 1e-6
-
+#define MAX_BOUNCE 5
 bool raycolor(
   const Ray & ray, 
   const double min_t,
@@ -17,14 +15,14 @@ bool raycolor(
   ////////////////////////////////////////////////////////////////////////////
   // Replace with your code here:
 	rgb = Eigen::Vector3d(0,0,0);
-
+	if (num_recursive_calls >= MAX_BOUNCE) {
+		return false;
+	}
 	int hit_id;
 	double t;
 	Eigen::Vector3d n;
 	if (first_hit(ray, min_t, objects, hit_id, t, n)) {
-
-		assert(hit_id >= 0 && hit_id < objects.size());
-		assert(t >= min_t);
+		
 		rgb = blinn_phong_shading(ray, hit_id, t, n, objects, lights);
 
 		//if hit the mirror

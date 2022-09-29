@@ -1,5 +1,4 @@
 #include "first_hit.h"
-#include <assert.h>
 #include <iostream>
 
 bool first_hit(
@@ -15,16 +14,12 @@ bool first_hit(
 	double t_result = std::numeric_limits<double>::infinity();
 	int index_result = -1;
 	Eigen::Vector3d normal_result;
-	assert(t_result > 0);
+
 
 	for (int i = 0; i < objects.size(); i++) {
 		double new_t;
 		Eigen::Vector3d new_normal;
 		if (objects[i]->intersect(ray, min_t, new_t, new_normal) == false) continue;
-
-
-
-		assert(new_t > min_t);
 
 		if (new_t < t_result) {
 			t_result = new_t;
